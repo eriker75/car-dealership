@@ -12,7 +12,7 @@ import {
   //ValidationPipe
 } from '@nestjs/common';
 import { CarsService } from './cars.service';
-import { CreateCarDto } from './dto/create-car.dto';
+import { CreateCarDto, UpdateCarDto } from './dto';
 
 @Controller('cars')
 export class CarsController {
@@ -34,21 +34,22 @@ export class CarsController {
   @Post()
   //@UsePipes(ValidationPipe) We are replace that with a more global option
   createCar( @Body() body: CreateCarDto ) {
-    return this.carService.create(body);
+    return this.carService.createCar(body);
   }
 
   @Patch(':id')
   updateCar( 
-    @Param('id', new ParseUUIDPipe({version: "4"})) id: number, 
-    @Body() body: CreateCarDto ) 
+    @Param('id', new ParseUUIDPipe({version: "4"})) id: string, 
+    @Body() body: UpdateCarDto ) 
   {
-    return body;
+    return this.carService.updateCar(id, body);
   }
 
   @Delete(':id')
-  deleteCar( @Param('id', new ParseUUIDPipe({version: "4"}) ) id: number ) {
+  deleteCar( @Param('id', new ParseUUIDPipe({version: "4"}) ) id: string ) {
+    this.carService.deleteCar(id);
     return {
-      method: 'delete',
+      method: `car with id ${id} has been deleted`,
       id
     };
   }
