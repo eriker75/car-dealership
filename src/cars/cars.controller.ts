@@ -34,7 +34,7 @@ export class CarsController {
   @Post()
   //@UsePipes(ValidationPipe) We are replace that with a more global option
   createCar( @Body() body: CreateCarDto ) {
-    return body;
+    return this.carService.create(body);
   }
 
   @Patch(':id')
