@@ -7,9 +7,12 @@ import {
   Param, 
   ParseUUIDPipe, 
   Patch, 
-  Post 
+  Post, 
+  //UsePipes,
+  //ValidationPipe
 } from '@nestjs/common';
 import { CarsService } from './cars.service';
+import { CreateCarDto } from './dto/create-car.dto';
 
 @Controller('cars')
 export class CarsController {
@@ -29,14 +32,15 @@ export class CarsController {
   }
 
   @Post()
-  createCar( @Body() body: any ) {
+  //@UsePipes(ValidationPipe) We are replace that with a more global option
+  createCar( @Body() body: CreateCarDto ) {
     return body;
   }
 
   @Patch(':id')
   updateCar( 
     @Param('id', new ParseUUIDPipe({version: "4"})) id: number, 
-    @Body() body: any ) 
+    @Body() body: CreateCarDto ) 
   {
     return body;
   }
